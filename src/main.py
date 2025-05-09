@@ -1,9 +1,9 @@
 import asyncio
-from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
 
+from routers import routers
 from config import BOT_TOKEN
 
 
@@ -11,15 +11,12 @@ bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTM
 dp = Dispatcher()
 
 
-@dp.message(F.text == "/start")
-async def start_handler(message: Message):
-    """ Start handler """
-    await message.answer("Hello, world!")
-
-
 async def main():
     print("🚀 Bot started")
     try:
+        for router in routers:
+            dp.include_router(router)
+
         await dp.start_polling(bot)
     finally:
         print("🛑 Bot stopped")
