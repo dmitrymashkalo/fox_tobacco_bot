@@ -6,3 +6,5 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_USER = os.getenv("ADMIN_USER")
 CURRENCY = os.getenv("CURRENCY")
+
+API_GET_BRANDS = os.getenv("API_GET_BRANDS")
