@@ -27,5 +27,5 @@ async def start_handler(message: Message):
 # return to menu handler
 @menu_router.callback_query(lambda c: c.data == "back_to_menu")
 async def back_to_menu(callback: CallbackQuery):
-    await safe_edit(text=texts.get("menu_back"), reply_markup=get_main_menu())
+    await safe_edit(callback, text=texts.get("start"), reply_markup=get_main_menu())
     await callback.answer()
