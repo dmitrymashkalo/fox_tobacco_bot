@@ -1,6 +1,5 @@
 from aiogram import Router
-from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from src.utils.tools import safe_edit
+from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile, InputMediaPhoto
 from src.utils.text_loader import texts
 
 menu_router = Router()
@@ -21,11 +20,25 @@ def get_main_menu():
 # start handler
 @menu_router.message(lambda msg: msg.text == "/start")
 async def start_handler(message: Message):
-    await message.answer(text=texts.get("start"), reply_markup=get_main_menu())
+    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/logo_two.jpeg')
+    await message.answer_photo(
+        photo=photo,
+        caption=texts.get("start"),
+        parse_mode="HTML",
+        reply_markup=get_main_menu()
+    )
 
 
 # return to menu handler
 @menu_router.callback_query(lambda c: c.data == "back_to_menu")
 async def back_to_menu(callback: CallbackQuery):
-    await safe_edit(callback, text=texts.get("start"), reply_markup=get_main_menu())
+    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/logo_two.jpeg')
+    await callback.message.edit_media(
+        media=InputMediaPhoto(
+            media=photo,
+            caption=texts.get("start"),
+            parse_mode="HTML"
+        ),
+        reply_markup=get_main_menu()
+    )
     await callback.answer()
