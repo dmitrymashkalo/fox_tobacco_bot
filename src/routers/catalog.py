@@ -1,6 +1,6 @@
 import aiohttp
 from aiogram import Router
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile
 from src.utils.tools import safe_edit
 from src.utils.text_loader import texts
 from src.config import API_GET_BRANDS, API_GET_FLAVORS_BY_BRAND
@@ -10,6 +10,8 @@ catalog_router = Router()
 # step one: select brand with flavors [not empty]
 @catalog_router.callback_query(lambda c: c.data == "catalog")
 async def catalog_brands(callback: CallbackQuery):
+    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/menu_catalog.png')
+
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(API_GET_BRANDS) as response:
@@ -30,9 +32,10 @@ async def catalog_brands(callback: CallbackQuery):
         ] + [[InlineKeyboardButton(text=texts.get("back_button"), callback_data="back_to_menu")]]
     )
 
-    await safe_edit(
-        callback=callback,
-        text=texts.get("brands.select_brand"),
+    await callback.message.answer_photo(
+        photo=photo,
+        caption=texts.get("brands.select_brand"),
+        parse_mode="HTML",
         reply_markup=keyboard
     )
 
