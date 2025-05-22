@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile
 from src.utils.text_loader import texts
+from src.config import IMG_URLS
 
 cart_router = Router()
 
@@ -8,7 +9,7 @@ cart_router = Router()
 async def cart_handler(callback: CallbackQuery):
     title = texts.get("cart.empty_title")
     body = texts.get("cart.empty_body")
-    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/menu_cart.png')
+    photo = FSInputFile(f'{IMG_URLS}menu_cart.png')
 
     await callback.message.answer_photo(
         photo=photo,

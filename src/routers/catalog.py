@@ -1,16 +1,15 @@
 import aiohttp
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile
-from src.utils.tools import safe_edit
 from src.utils.text_loader import texts
-from src.config import API_GET_BRANDS, API_GET_FLAVORS_BY_BRAND
+from src.config import API_GET_BRANDS, API_GET_FLAVORS_BY_BRAND, IMG_URLS
 
 catalog_router = Router()
 
 # step one: select brand with flavors [not empty]
 @catalog_router.callback_query(lambda c: c.data == "catalog")
 async def catalog_brands(callback: CallbackQuery):
-    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/menu_catalog.png')
+    photo = FSInputFile(f'{IMG_URLS}menu_catalog.png')
 
     try:
         async with aiohttp.ClientSession() as session:
@@ -68,10 +67,19 @@ async def brand_flavors(callback: CallbackQuery):
         ] + [[InlineKeyboardButton(text=texts.get("back_button"), callback_data="catalog")]]
     )
 
-    await safe_edit(
+    photo = FSInputFile(f'{IMG_URLS}brand_{brand_name}.png')
+
+    await callback.message.answer_photo(
+        photo=photo,
+        caption=texts.get("flavors.select_flavor"),
+        parse_mode="HTML",
+        reply_markup=keyboard
+    )
+
+    """await safe_edit(
         callback=callback,
         text=texts.get("flavors.select_flavor") + f"{brand_name}:",
         reply_markup=keyboard
-    )
+    )"""
 
     await callback.answer()

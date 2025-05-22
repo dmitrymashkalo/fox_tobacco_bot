@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile, InputMediaPhoto
 from src.utils.text_loader import texts
+from src.config import IMG_URLS
 
 menu_router = Router()
 
@@ -20,7 +21,7 @@ def get_main_menu():
 # start handler
 @menu_router.message(lambda msg: msg.text == "/start")
 async def start_handler(message: Message):
-    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/logo_two.jpeg')
+    photo = FSInputFile(f'{IMG_URLS}logo_two.jpeg')
     await message.answer_photo(
         photo=photo,
         caption=texts.get("start"),
@@ -32,7 +33,7 @@ async def start_handler(message: Message):
 # return to menu handler
 @menu_router.callback_query(lambda c: c.data == "back_to_menu")
 async def back_to_menu(callback: CallbackQuery):
-    photo = FSInputFile('/Users/Dzmitry_Mashkala/fox_tobacco/fox_tobacco_bot/src/img/logo_two.jpeg')
+    photo = FSInputFile(f'{IMG_URLS}logo_two.jpeg')
     await callback.message.edit_media(
         media=InputMediaPhoto(
             media=photo,
