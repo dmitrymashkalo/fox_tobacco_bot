@@ -1,8 +1,8 @@
 import aiohttp
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile
-from src.utils.text_loader import texts
-from src.config import API_GET_BRANDS, API_GET_FLAVORS_BY_BRAND, API_GET_FLAVOR_DETAILS, IMG_URLS
+from ..utils.text_loader import texts
+from ..config import API_GET_BRANDS, API_GET_FLAVORS_BY_BRAND, API_GET_FLAVOR_DETAILS, IMG_URLS
 
 catalog_router = Router()
 

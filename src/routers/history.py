@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, FSInputFile
-from src.utils.text_loader import texts
-from src.config import IMG_URLS
+from ..utils.text_loader import texts
+from ..config import IMG_URLS
 
 history_router = Router()
 
