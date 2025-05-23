@@ -31,9 +31,12 @@ async def catalog_brands(callback: CallbackQuery):
         ] + [[InlineKeyboardButton(text=texts.get("back_button"), callback_data="back_to_menu")]]
     )
 
+    title = texts.get("menu_buttons.catalog")
+    body = texts.get("brands.select_brand")
+
     await callback.message.answer_photo(
         photo=photo,
-        caption=texts.get("brands.select_brand"),
+        caption=f"<b>{title}</b>\n\n{body}",
         parse_mode="HTML",
         reply_markup=keyboard
     )
@@ -67,11 +70,15 @@ async def brand_flavors(callback: CallbackQuery):
         ] + [[InlineKeyboardButton(text=texts.get("back_button"), callback_data="catalog")]]
     )
 
-    photo = FSInputFile(f'{IMG_URLS}brand_{brand_name}.png')
+    correct_name = brand_name.split(" ")
+    photo = FSInputFile(f'{IMG_URLS}brand_{" ".join(correct_name[1:])}.png')
+
+    title = texts.get("menu_buttons.catalog")
+    body = texts.get("flavors.select_flavor")
 
     await callback.message.answer_photo(
         photo=photo,
-        caption=texts.get("flavors.select_flavor"),
+        caption=f"<b>{title}</b>\n\n{body}",
         parse_mode="HTML",
         reply_markup=keyboard
     )
@@ -99,9 +106,9 @@ async def flavor_details(callback: CallbackQuery):
         return
 
     text = (
-        f"▶️ <b>{flavor['name']} {flavor['weight']}г</b>\n"
-        f"▶️ <b>💵 Цена: {flavor['price']} zł 💵</b>\n"
-        f"▶️ <b>⏳ Доступно: {flavor['available_qty']} ⏳</b>\n\n"
+        f"▶️ <b>{flavor['name']} {flavor['weight']}{texts.get("pdp.weight")}</b>\n"
+        f"▶️ <b>💵 {texts.get("pdp.price")}: {flavor['price']} {texts.get("pdp.currency")} 💵</b>\n"
+        f"▶️ <b>⏳ {texts.get("pdp.available")}: {flavor['available_qty']} ⏳</b>\n\n"
         f"{flavor['description']}"
     )
 
