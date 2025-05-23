@@ -7,6 +7,8 @@ support_router = Router()
 
 @support_router.callback_query(lambda c: c.data == "support")
 async def support_handler(callback: CallbackQuery):
+    await callback.message.delete()
+
     title = texts.get("support.title")
     body = texts.get("support.body")
     photo = FSInputFile(f'{IMG_URLS}menu_support.png')

@@ -7,6 +7,8 @@ cart_router = Router()
 
 @cart_router.callback_query(lambda c: c.data == "cart")
 async def cart_handler(callback: CallbackQuery):
+    await callback.message.delete()
+
     title = texts.get("cart.empty_title")
     body = texts.get("cart.empty_body")
     photo = FSInputFile(f'{IMG_URLS}menu_cart.png')

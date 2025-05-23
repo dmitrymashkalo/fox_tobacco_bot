@@ -7,6 +7,8 @@ history_router = Router()
 
 @history_router.callback_query(lambda c: c.data == "history")
 async def cart_handler(callback: CallbackQuery):
+    await callback.message.delete()
+
     title = texts.get("history.empty_title")
     body = texts.get("history.empty_body")
     photo = FSInputFile(f'{IMG_URLS}menu_history.png')

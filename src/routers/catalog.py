@@ -9,6 +9,8 @@ catalog_router = Router()
 # step one: select brand with flavors [not empty]
 @catalog_router.callback_query(lambda c: c.data == "catalog")
 async def catalog_brands(callback: CallbackQuery):
+    await callback.message.delete()
+
     photo = FSInputFile(f'{IMG_URLS}menu_catalog.png')
 
     try:
@@ -47,6 +49,8 @@ async def catalog_brands(callback: CallbackQuery):
 #step two: get all flavors for selected brand [not empty]
 @catalog_router.callback_query(lambda c: c.data.startswith("brand_"))
 async def brand_flavors(callback: CallbackQuery):
+    await callback.message.delete()
+
     raw_data = callback.data.removeprefix("brand_")
     brand_id, brand_name = raw_data.split("|", 1)
 
@@ -89,6 +93,8 @@ async def brand_flavors(callback: CallbackQuery):
 # step three: show flavor (product) details
 @catalog_router.callback_query(lambda c: c.data.startswith("flavor_"))
 async def flavor_details(callback: CallbackQuery):
+    await callback.message.delete()
+
     raw_data = callback.data.removeprefix("flavor_")
     flavor_id, brand_id, brand_name = raw_data.split("|", 2)
 
