@@ -52,7 +52,7 @@ async def brand_flavors(callback: CallbackQuery):
     await callback.message.delete()
 
     raw_data = callback.data.removeprefix("brand_")
-    brand_id, brand_name = raw_data.split("|", 1)
+    brand_id, _ = raw_data.split("|", 1)
 
     try:
         async with aiohttp.ClientSession() as session:
@@ -69,13 +69,12 @@ async def brand_flavors(callback: CallbackQuery):
         inline_keyboard=[
             [InlineKeyboardButton(
                 text=f"{flavor["name"]} {flavor["weight"]}г {flavor["price"]}zł",
-                callback_data=f"flavor_{flavor['flavor_id']}|{brand_id}|{brand_name}")]
+                callback_data=f"flavor_{flavor['flavor_id']}|{brand_id}|{_}")]
             for flavor in flavors
         ] + [[InlineKeyboardButton(text=texts.get("back_button"), callback_data="catalog")]]
     )
 
-    correct_name = brand_name.split(" ")
-    photo = FSInputFile(f'{IMG_URLS}brand_{" ".join(correct_name[1:])}.png')
+    photo = FSInputFile(f'{IMG_URLS}brand_{brand_id}.png')
 
     title = texts.get("menu_buttons.catalog")
     body = texts.get("flavors.select_flavor")
